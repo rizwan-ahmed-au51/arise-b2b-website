@@ -1,0 +1,12 @@
+// Color palette from Arise app
+:root {
+  --primary-blue: #1988ee;
+  --secondary-blue: #134d7e;
+  --light-bg: #f1f1fa;
+  --white: #ffffff;
+  --black: #000000;
+  --grey: #8f8e94;
+
+  // Gradient
+  --gradient-blue: linear-gradient(180deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+}
