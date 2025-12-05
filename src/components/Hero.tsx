@@ -1,9 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
 
 const Hero = () => {
   return (
     <section id="home" className="hero">
+      <div className="bg-wrap">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <div className="hero-gradient-bg"></div>
       <div className="hero-pattern-overlay"></div>
       <div className="container hero-content">
@@ -41,7 +49,12 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <h1 className="hero-title">
-            Empower Your <span className="highlight">Teaching Career</span> with Arise
+            Empower Your <span style={{
+              background: 'linear-gradient(180deg, #1988ee 0%, #134d7e 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>Teaching Career</span> with Arise
           </h1>
           <p className="hero-subtitle">
             Create, manage, and monetize educational content with our comprehensive platform designed for tutors and educational experts. Join thousands already transforming their teaching experience.
@@ -54,15 +67,21 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div className="stat-item">
-              <div className="stat-number">10,000+</div>
+              <div className="stat-number">
+                <CountUp end={10000} duration={2.5} separator="," />+
+              </div>
               <div className="stat-label">Active Tutors</div>
             </div>
             <div className="stat-item">
-              <div className="stat-number">500%</div>
+              <div className="stat-number">
+                <CountUp end={500} duration={2.5} />%
+              </div>
               <div className="stat-label">Avg Revenue Increase</div>
             </div>
             <div className="stat-item">
-              <div className="stat-number">4.8★</div>
+              <div className="stat-number">
+                <CountUp end={4.8} duration={2.5} decimals={1} />★
+              </div>
               <div className="stat-label">Tutor Rating</div>
             </div>
           </motion.div>

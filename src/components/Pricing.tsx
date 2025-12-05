@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaCheck, FaCrown, FaStar } from 'react-icons/fa';
 
 const Pricing = () => {
+  const [titleVisible, setTitleVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setTitleVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: '-30% 0px -60% 0px', // Trigger when section top reaches 30% from viewport top
+      }
+    );
+
+    const sectionElement = document.getElementById('pricing');
+    if (sectionElement) {
+      observer.observe(sectionElement);
+    }
+
+    return () => {
+      if (sectionElement) {
+        observer.unobserve(sectionElement);
+      }
+    };
+  }, []);
+
   const plans = [
     {
       name: 'Starter',
@@ -63,8 +87,32 @@ const Pricing = () => {
     <section id="pricing" className="pricing">
       <div className="container">
         <div className="text-center">
-          <h2 className="section-title">Choose Your Plan</h2>
-          <p className="section-subtitle">Flexible pricing designed to scale with your teaching business</p>
+          <motion.h2
+            className="section-title"
+            animate={{
+              opacity: titleVisible ? 1 : 0,
+              y: titleVisible ? 0 : 20
+            }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+          >
+            Choose Your <span style={{
+              background: 'linear-gradient(180deg, #1988ee 0%, #134d7e 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>Perfect</span> Plan
+          </motion.h2>
+
+          <motion.p
+            className="section-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            Flexible pricing designed to scale with your teaching business.
+          </motion.p>
         </div>
         <motion.div
           className="pricing-grid"
@@ -84,6 +132,7 @@ const Pricing = () => {
             >
               {plan.recommended && (
                 <div className="recommended-badge">
+                  {/* @ts-ignore */}
                   <FaCrown className="recommended-icon" />
                   Most Popular
                 </div>
@@ -100,6 +149,7 @@ const Pricing = () => {
                 <ul>
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex}>
+                      {/* @ts-ignore */}
                       <FaCheck className="feature-check" />
                       {feature}
                     </li>

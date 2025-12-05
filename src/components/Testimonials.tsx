@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const Testimonials = () => {
+  const [titleVisible, setTitleVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setTitleVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: '-30% 0px -60% 0px', // Trigger when section top reaches 30% from viewport top
+      }
+    );
+
+    const sectionElement = document.getElementById('testimonials');
+    if (sectionElement) {
+      observer.observe(sectionElement);
+    }
+
+    return () => {
+      if (sectionElement) {
+        observer.unobserve(sectionElement);
+      }
+    };
+  }, []);
+
   const testimonials = [
     {
-      avatar: "./assets/images/testimonial-1.jpg",
+      avatar: "../../assets/images/testimonial-1.jpg",
       quote: "Arise has revolutionized how I connect with my students. The live streaming tools and student dashboard are incredibly professional.",
       author: "Dr. Rohan Mehta",
       role: "Anatomy Professor, Delhi"
@@ -27,8 +51,32 @@ const Testimonials = () => {
     <section id="testimonials" className="testimonials">
       <div className="container">
         <div className="text-center">
-          <h2 className="section-title">What Our Tutors Say</h2>
-          <p className="section-subtitle">Join hundreds of successful educators who have transformed their teaching career with Arise.</p>
+          <motion.h2
+            className="section-title"
+            animate={{
+              opacity: titleVisible ? 1 : 0,
+              y: titleVisible ? 0 : 20
+            }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+          >
+            What Our <span style={{
+              background: 'linear-gradient(180deg, #1988ee 0%, #134d7e 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>Tutors</span> Say
+          </motion.h2>
+
+          <motion.p
+            className="section-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            Join hundreds of successful educators who have transformed their teaching career with Arise.
+          </motion.p>
         </div>
         <motion.div
           className="testimonials-grid"
